@@ -1,0 +1,45 @@
+.moduleTitle {
+    padding: 4px 4px 4px 4px;
+    color: #444;
+    background-color: #ffffff;
+    border-color: #999999;
+    background-image: url(../images/bgGray.gif); 
+    color: #990033;
+    FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+    FONT-SIZE: 14px;
+    FONT-WEIGHT: bold;
+}
+.tabForm {
+    border-color: #999;
+    color: #aaaaaa;
+    background-color: #fafafa;
+    background-image: url(../images/bggrisForm.gif);
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 1px solid #aaaaaa;
+    padding: 10px 6px 12px 10px;
+    font-size: 12px;
+    background-repeat: repeat-x;
+    background-position: top;
+}
+.tabForm td {
+    padding: 4px 4px 4px 4px;
+    FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+    color: #333333;
+}
+.filterForm {
+    border-color: #999;
+    color: #aaaaaa;
+    background-color: #fafafa;
+    background-image: url(../images/bggrisForm.gif);
+    border-top: 1px solid #aaaaaa;
+    /* border-bottom: 1px solid #aaaaaa; */
+    padding: 10px 6px 12px 10px;
+    font-size: 12px;
+    background-repeat: repeat-x;
+    background-position: top;
+}
+.filterForm td {
+    padding: 4px 4px 4px 4px;
+    FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+    color: #333333;
+}
