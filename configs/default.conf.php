@@ -2,9 +2,9 @@
 // session_start();
 //base de datos
 $arrConf['hostDB_NA']  = 'localhost';
-$arrConf['userDB_NA'] = 'root';
-$arrConf['passwordDB_NA'] = '';
-$arrConf['nameDB_NA'] = 'NA';
+$arrConf['userDB_NA'] = 'admin';
+$arrConf['passwordDB_NA'] = 'admin';
+$arrConf['nameDB_NA'] = 'na';
 
 // define ('_COMPANY','Nuevo Amanecer');
 $_SESSION['_COMPANY'] = 'Nuevo Amanecer';

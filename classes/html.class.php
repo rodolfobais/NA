@@ -28,7 +28,7 @@ class html{
    		if ($name != '') {
    			$vs .= " name='".$name."' id = '".$name." '";
    		}
-   		if ($propiedades['value']) {
+   		if (array_key_exists('value', $propiedades)) {
    			$selected = $propiedades['value'];
    			unset($propiedades['value']);
    		}else{
@@ -40,7 +40,7 @@ class html{
 			}
 		}
     	
-    	//Genero una opciòn vacìa por default
+    	//Genero una opciï¿½n vacï¿½a por default
     	$vs .= " >\n";
     	$vs .= "<OPTION value='' ></OPTION>\n";
     	if ($aoptions != ''){

@@ -178,28 +178,28 @@ function include_subfiles() {
 	/*
 	 * Primero cargo los includes genéricos
 	 */
-	$sql="SELECT Path, Type , Orden FROM Includes WHERE IdModulo = 'GENERIC'";
+	$sql="SELECT path, type , orden FROM includes WHERE idmodulo = 'GENERIC'";
 // 	echo $sql;
 	//$query = $db -> QuerySimple(
 	$datos =  $db -> QueryFetchArray($sql);
 	foreach ($datos AS $inc) {
 		if (is_array($inc)) {
-			if (!file_exists($inc['Path'])){
-				echo "<br/>No existe el archivo: ".$inc['Path'];
+			if (!file_exists($inc['path'])){
+				echo "<br/>No existe el archivo: ".$inc['path'];
 			}
-			switch ($inc['Type']) {
+			switch ($inc['type']) {
 				case 'css' :
 					?>
-						<link rel="stylesheet" href="<?php echo $inc['Path']; ?>" >
+						<link rel="stylesheet" href="<?php echo $inc['path']; ?>" >
 					<?php
 				break;
 				case 'js' :
 					?>
-					<script  type="text/javascript" src="<?php echo $inc['Path']; ?>"></script>
+					<script  type="text/javascript" src="<?php echo $inc['path']; ?>"></script>
 					<?php			
 				break;
 				case 'php' :
-					include_once($inc['Path']);
+					include_once($inc['path']);
 // 					echo $class_filename.'<br>';					
 				break;
 			}
@@ -209,7 +209,7 @@ function include_subfiles() {
 	/*
 	 * Ahora cargo los puntuales para el módulo
 	 */
-	$sql="SELECT Path, Type , Orden FROM Includes WHERE IdModulo = '".$_GET['menu']."'";
+	$sql="SELECT path, type , orden FROM includes WHERE idModulo = '".$_GET['menu']."'";
 	$datos =  $db -> QueryFetchArray($sql);
 // 	echo $sql;
 	
@@ -228,22 +228,22 @@ function include_subfiles() {
 	
 	foreach ($datos AS $inc) {
 		if (is_array($inc)) {
-			if (!file_exists($inc['Path'])){
-				echo "<br/>No existe el archivo: ".$inc['Path'];
+			if (!file_exists($inc['path'])){
+				echo "<br/>No existe el archivo: ".$inc['path'];
 			}
-			switch ($inc['Type']) {
+			switch ($inc['type']) {
 				case 'css' :
 					?>
-					<link rel="stylesheet" href="<?php echo $inc['Path']; ?>" >
+					<link rel="stylesheet" href="<?php echo $inc['path']; ?>" >
 					<?php
 				break;
 				case 'js' :
 					?>
-					<script  type="text/javascript" src="<?php echo $inc['Path']; ?>"></script>
+					<script  type="text/javascript" src="<?php echo $inc['path']; ?>"></script>
 					<?php			
 				break;
 				case 'php' :
-					include_once($inc['Path']);
+					include_once($inc['path']);
 					//echo $class_filename.'<br>';					
 				break;
 			}
@@ -425,7 +425,7 @@ function load_hmlt_headers()
 <script type="text/javascript" src="own_id.inc.php"></script>
 <script type="text/javascript"> 
 var base_url =  '';
-var physical_id_section = '<?php echo $_SESSION['physical_id_section'] ?>';
+var physical_id_section = '';
 
 </script>
 
@@ -678,7 +678,7 @@ function showMenu($idMenuSelected)
     echo '<td>';
 	echo '<table height="76" cellspacing="0" cellpadding="0" border="0" width="100%">';
 	echo '<tr>';
-    echo '<td width="380" height="76" class="menulogo"><img border="0" src="images/logo2.jpg" widht="380" height="86"></td>';
+    echo '<td widt="380" height="70" class="menulogo"><img border="0" src="images/logo2.jpg" width="255"></td>';
 
 	//aca imprimo los menu PRINCIPALES
 	foreach ( $arrMenu as $menuId => $value ) {
@@ -848,7 +848,7 @@ function getGroupId ()
 
 function ifmenu_parent_skip_next($menu_name){ //si es parent devuelve el nombre del child sino false
 	global $arrConf, $db;
-	$sql = " SELECT type, (SELECT id FROM `menu` WHERE idParent ='$menu_name'  LIMIT 1 ) as children FROM `menu` WHERE  id = '$menu_name' ";
+	$sql = " SELECT type, (SELECT id FROM `menu` WHERE idparent ='$menu_name'  LIMIT 1 ) as children FROM `menu` WHERE  id = '$menu_name' ";
 	$dato = $db -> QueryArray($sql);
 // 	        echo "<pre>";
 // 	        print_r($dato);

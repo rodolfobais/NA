@@ -17,8 +17,8 @@ class security{
 				FROM `user`
 				WHERE login = '$login' AND password = '$password' AND active = '1'";
 		$sql = $this -> db -> QueryArray($sqlString);
-// 		echo $sqlString;
-// 		echo "<pre>"; print_r($sql);echo "</pre>";die;
+//  		echo $sqlString;
+//  		echo "<pre>"; print_r($sql);echo "</pre>";die;
 		$query_login = $sql['login'];
 		$query_password = $sql['password'];
 		$query_userId = $sql['id'];

@@ -15,6 +15,7 @@ class dataBase{
 	    $dbConn = mysql_pconnect( $arrConf['hostDB_NA'], $arrConf['userDB_NA'], $arrConf['passwordDB_NA'] );
 	    if (!$dbConn) {
 	    	$this -> msg = 'No pudo conectarse: ' . mysql_error();
+	    	echo $this -> msg; 
 	    	return false;
 	    }/*
 	    else{
@@ -24,6 +25,7 @@ class dataBase{
 	    $dbConn = mysql_select_db( $arrConf['nameDB_NA'], $dbConn );
 		if (!$dbConn) {
 	    	$this -> msg = 'No pudo seleccionarse la base (): ' . mysql_error();
+	    	echo $this -> msg;
 	    	return false;
 	    }
 	    /*else{
@@ -51,11 +53,11 @@ class dataBase{
 	
 	function QueryFetchArray ($query){
 		$this -> dbConnect();
-// 		echo $query;
+// 		echo $query."<br/>";
 		$sql =  mysql_query($query);
 		//$datos = mysql_fetch_array($sql) ;
 		$datos = array();
-		while ($fila = mysql_fetch_array($sql, MYSQL_BOTH)) {
+		while ($fila = @mysql_fetch_array($sql, MYSQL_BOTH)) {
 			$datos[] = $fila;
 		}
 	

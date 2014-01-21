@@ -13,12 +13,12 @@ class loadLangVar{
 		$db = new dataBase($this -> dir);
 		global $arrLang;
 		
-		$sql = "SELECT `idVar`, `descrp` FROM `languajevar` WHERE `module` IN ('GENERIC','MENU','".$_SESSION['menu']."') AND `languaje` = '".$_SESSION['lang']."'";
+		$sql = "SELECT `idvar`, `descrp` FROM `languajevar` WHERE `module` IN ('GENERIC','MENU','".$_SESSION['menu']."') AND `languaje` = '".$_SESSION['lang']."'";
 		// echo $sql;
 		$result = $db -> QueryFetchArrayASSOC($sql);
 		$arrLang = array();
 		foreach ($result as $value) {
-			$arrLang[$value['idVar']] = utf8_encode($value['descrp']);
+			$arrLang[$value['idvar']] = utf8_encode($value['descrp']);
 		}
 // 		echo "<pre>".print_r($arrLang,true)."</pre>";
 	}

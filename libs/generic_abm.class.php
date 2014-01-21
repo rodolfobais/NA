@@ -41,22 +41,22 @@ class generic_abm {
 		$from = $this -> fn -> getModuleQueryFrom($menu);
 		
 		//Obtengo el campo que funciona como ID para usar en el delete
-		$sqlCampos = "SELECT campoFisico
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'PK'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT campofisico
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'PK'
+		ORDER BY modulefields.orden ASC";
 		$arrCampos = $this -> db -> QueryFetchArray($sqlCampos);
-		$campoFisico = $arrCampos[0]['campoFisico'];
+		$campoFisico = $arrCampos[0]['campofisico'];
 		
 		$where = "";
 		for ($i = 0; $i < count($arrCampos); $i++) {
 			if ($where != "") {
 				$where .= " AND ";
 			}
-			$where .= " ".$arrCampos[$i]['campoFisico']." = '".$valor[$i]."'";
+			$where .= " ".$arrCampos[$i]['campofisico']." = '".$valor[$i]."'";
 		}
 		$where = " WHERE ".$where;
 		
@@ -110,13 +110,13 @@ class generic_abm {
 		$from = $this-> fn -> getModuleQueryFrom($menu);
 		
 		/*Armo el WHERE*/
-		$sqlCampos = "SELECT campoFisico
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'PK'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT campofisico
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'PK'
+		ORDER BY modulefields.orden ASC";
 // 		echo $sqlCampos;
 		$arrCampos = $this-> db -> QueryFetchArray($sqlCampos);
 		
@@ -125,18 +125,18 @@ class generic_abm {
 			if ($where != "") {
 				$where .= " AND ";
 			}
-			$where .= " ".$arrCampos[$i]['campoFisico']." = '".$valor[$i]."'";
+			$where .= " ".$arrCampos[$i]['campofisico']." = '".$valor[$i]."'";
 		}
 		$where = " WHERE ".$where;
 		
 		/*Obtengo los campos*/
-		$sqlCampos = "SELECT Fields.`idCampo`,campoFisico,`nombreEnForm`,`TipoCampo` as TipoCampo
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'ED'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT fields.`idcampo`,campofisico,`nombreenform`,`tipocampo` as tipocampo
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE Idmodulo = '".$menu."'
+		AND modulefields.scope = 'ED'
+		ORDER BY modulefields.orden ASC";
 		$arrCampos = $this-> db -> QueryFetchArray($sqlCampos);
 // 		echo $sqlCampos;
 		$columnas = "";
@@ -144,10 +144,10 @@ class generic_abm {
 			if ($columnas != "") {
 				$columnas .= ", ";
 			}
-			if ($result['TipoCampo'] == 'date'){
-				$columnas .= "DATE_FORMAT(".$result['campoFisico'].",'%d/%m/%Y') AS ".$result['nombreEnForm']."";
+			if ($result['tipocampo'] == 'date'){
+				$columnas .= "DATE_FORMAT(".$result['campofisico'].",'%d/%m/%Y') AS ".$result['nombreenform']."";
 			}else{
-				$columnas .= "".$result['campoFisico']."";
+				$columnas .= "".$result['campofisico']."";
 			}
 		}
 		
@@ -156,11 +156,11 @@ class generic_abm {
 		$arrSelect = $this-> db -> QueryFetchArray($sql);
 		
 		$valoresPrevios = array();
-// 		echo "<pre>"; print_r($arrCampos); echo "</pre>";
+// 		echo  "<pre>"; print_r($arrCampos); echo "</pre>";
 // 		echo "<pre>"; print_r($arrSelect); echo "</pre>";
 		foreach ($arrCampos as $value) {
 // 			echo "<pre>"; print_r($value); echo "</pre>";
-			$valoresPrevios[$value['idCampo']]['valor'] = $arrSelect[0][$value['nombreEnForm']];
+			$valoresPrevios[$value['idcampo']]['valor'] = $arrSelect[0][$value['nombreenform']];
 // 			$valoresPrevios[$value[0]]['valor'] = $arrSelect[0][$value[1]];
 		}	
 // 		echo "<pre>"; print_r($valoresPrevios); echo "</pre>";
@@ -196,42 +196,42 @@ class generic_abm {
 		}
 // 		echo "<pre>"; print_r($arrAsoc); echo "</pre>";
 		//Obtengo los campos PK
-		$sqlCamposPK = "SELECT campoFisico,`nombreEnForm`
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'PK'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCamposPK = "SELECT campofisico,`nombreenform`
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'PK'
+		ORDER BY modulefields.orden ASC";
 		
 		$arrCamposPK = $this-> db -> QueryFetchArray($sqlCamposPK);
 // 		echo $sqlCamposPK;
-		$sql = "SELECT TableBase FROM module where IdModulo = '".$obj->modulo."'";
+		$sql = "SELECT tablebase FROM module where idmodulo = '".$obj->modulo."'";
 		$result = $this-> db -> QueryFetchArray($sql);
 // 		echo $sql;
-		$tableBase = $result[0]['TableBase'];
+		$tableBase = $result[0]['tablebase'];
 	
-		$sqlCampos = "SELECT campoFisico,`nombreEnForm`
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'NR'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT campofisico,`nombreenform`
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'NR'
+		ORDER BY modulefields.orden ASC";
 		$arrCampos = $this-> db -> QueryFetchArray($sqlCampos);
 		
 		//Armo el array para usar en el select de las pk
 		$arrSelectPk = Array();
 		foreach ($arrCamposPK as $value) {
-			$arrSelectPk[$value['nombreEnForm']]['campoFisico'] = $value['campoFisico'];
-			$arrSelectPk[$value['nombreEnForm']]['valor'] = $arrAsoc[$value['nombreEnForm']];
+			$arrSelectPk[$value['nombreenform']]['campofisico'] = $value['campofisico'];
+			$arrSelectPk[$value['nombreenform']]['valor'] = $arrAsoc[$value['nombreenform']];
 		}
 	
 		//Armo el array para usar en el insert
 		$arrInsert = Array();
 		foreach ($arrCampos as $value) {
-			$arrInsert[$value['nombreEnForm']]['campoFisico'] = $value['campoFisico'];
-			$arrInsert[$value['nombreEnForm']]['valor'] = $arrAsoc[$value['nombreEnForm']];
+			$arrInsert[$value['nombreenform']]['campofisico'] = $value['campofisico'];
+			$arrInsert[$value['nombreenform']]['valor'] = $arrAsoc[$value['nombreenform']];
 		}
 	
 		$sqlInsertCampos = "";
@@ -242,9 +242,8 @@ class generic_abm {
 				$sqlInsertCampos .= ", ";
 				$sqlInsertValor  .= ", ";
 			}
-			$sqlInsertCampos .= "".$value['campoFisico']."";
+			$sqlInsertCampos .= "".$value['campofisico']."";
 			$sqlInsertValor  .= "'".$value['valor']."'";
-				
 		}
 		$sqlInsert .= $sqlInsertCampos.") VALUES (".$sqlInsertValor.")";
 		
@@ -253,7 +252,7 @@ class generic_abm {
 			if ($sqlSelectPk != "") {
 				$sqlSelectPk .= " AND ";
 			}
-			$sqlSelectPk .= "".$value['campoFisico']." = '".$value['valor']."'";
+			$sqlSelectPk .= "".$value['campofisico']." = '".$value['valor']."'";
 		}
 		$sqlSelectPk = "SELECT 1 FROM ".$tableBase." WHERE ".$sqlSelectPk;
 		$arrCamposPk = $this -> db -> QueryFetchArray($sqlSelectPk);
@@ -261,7 +260,7 @@ class generic_abm {
 //  		echo $sqlSelectPk;
 		if (count($arrCamposPk) > 0 ) {
 			$error = 1;
-			$msg = "No se pueden insertar registros duplicados. ".$sqlInsert;
+			$msg = "No se pueden insertar registros duplicados. ".$sqlSelectPk;
 		}else{
 			$this -> db -> QuerySimple($sqlInsert);
 		}
@@ -285,34 +284,34 @@ class generic_abm {
 		$from = $this -> fn -> getModuleQueryFrom($menu);
 		
 		/*Armo el WHERE*/
-		$sqlCampos = "SELECT campoFisico
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'PK'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT campofisico
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'PK'
+		ORDER BY modulefields.orden ASC";
 //  		echo $sqlCampos;
 		$arrCampos = $this -> db -> QueryFetchArray($sqlCampos);
-		$campoFisico = $arrCampos[0]['campoFisico'];
+		$campoFisico = $arrCampos[0]['campofisico'];
 		
 		$where = "";
 		for ($i = 0; $i < count($arrCampos); $i++) {
 			if ($where != "") {
 				$where .= " AND ";
 			}
-			$where .= " ".$arrCampos[$i]['campoFisico']." = '".$valor[$i]."'";
+			$where .= " ".$arrCampos[$i]['campofisico']." = '".$valor[$i]."'";
 		}
 		$where = " WHERE ".$where;
 		
 		/*Obtengo los campos*/
-		$sqlCampos = "SELECT Fields.`idCampo`,campoFisico,`nombreEnForm`
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'ED'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT fields.`idcampo`,campofisico,`nombreenform`
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'ED'
+		ORDER BY modulefields.orden ASC";
 		$arrCampos = $this -> db -> QueryFetchArray($sqlCampos);
 // 		echo "<pre>arrCampos"; print_r($arrCampos); echo "</pre>";
 		$columnas = "";
@@ -320,7 +319,7 @@ class generic_abm {
 			if ($columnas != "") {
 				$columnas .= ", ";
 			}
-			$columnas .= "".$result['campoFisico']."";
+			$columnas .= "".$result['campofisico']."";
 		}
 
 		$sql = "SELECT ".$columnas." ".$from." ".$where;
@@ -331,7 +330,7 @@ class generic_abm {
 // 		echo "<pre>arrSelect"; print_r($arrSelect); echo "</pre>";
 		foreach ($arrCampos as $value) {
 // 			echo "<pre>VALUE"; print_r($value); echo "</pre>";
-			$valoresPrevios[$value['idCampo']]['valor'] = $arrSelect[0][$value['nombreEnForm']];
+			$valoresPrevios[$value['idcampo']]['valor'] = $arrSelect[0][$value['nombreenform']];
 		}	
 // 		echo "<pre>valoresPrevios"; print_r($arrLang); echo "</pre>";
 		$salida = $this -> armarGrilla($obj,'ED',$valoresPrevios);
@@ -366,53 +365,53 @@ class generic_abm {
 		}
 		
 		//Obtengo los campos PK
-		$sqlCamposPK = "SELECT campoFisico,`nombreEnForm`
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'PK'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCamposPK = "SELECT campofisico,`nombreenform`
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'PK'
+		ORDER BY modulefields.orden ASC";
 		// 		echo $sqlCampos;
 		$arrCamposPK = $this -> db -> QueryFetchArray($sqlCamposPK);
 		
-		$sql = "SELECT TableBase FROM module where IdModulo = '".$obj->modulo."'";
+		$sql = "SELECT tablebase FROM module where idmodulo = '".$obj->modulo."'";
 		$result = $this-> db -> QueryFetchArray($sql);
-		$tableBase = $result[0]['TableBase'];
+		$tableBase = $result[0]['tablebase'];
 		
 		/*Armo el WHERE*/
-		$sqlCampos = "SELECT campoFisico
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'PK'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT campofisico
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'PK'
+		ORDER BY modulefields.orden ASC";
 		// 		echo $sqlCampos;
 		$arrCampos = $this -> db -> QueryFetchArray($sqlCampos);
-		$campoFisico = $arrCampos[0]['campoFisico'];
+		$campoFisico = $arrCampos[0]['campofisico'];
 		
-		$sqlCampos = "SELECT campoFisico,`nombreEnForm`
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'ED'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT campofisico,`nombreenform`
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'ED'
+		ORDER BY modulefields.orden ASC";
 		$arrCampos = $this -> db -> QueryFetchArray($sqlCampos);
 		
 		//Armo el array para usar en el select de las pk
 		$arrSelectPk = Array();
 		foreach ($arrCamposPK as $value) {
-			$arrSelectPk[$value['nombreEnForm']]['campoFisico'] = $value['campoFisico'];
-			$arrSelectPk[$value['nombreEnForm']]['valor'] = $arrAsoc[$value['nombreEnForm']];
+			$arrSelectPk[$value['nombreenform']]['campofisico'] = $value['campofisico'];
+			$arrSelectPk[$value['nombreenform']]['valor'] = $arrAsoc[$value['nombreenform']];
 		}
 		
 		//Armo el array para usar en el insert
 		$arrUpdate = Array();
 		foreach ($arrCampos as $value) {
-			$arrUpdate[$value['nombreEnForm']]['campoFisico'] = $value['campoFisico'];
-			$arrUpdate[$value['nombreEnForm']]['valor'] = $arrAsoc[$value['nombreEnForm']];
+			$arrUpdate[$value['nombreenform']]['campofisico'] = $value['campofisico'];
+			$arrUpdate[$value['nombreenform']]['valor'] = $arrAsoc[$value['nombreenform']];
 		}
 		//update TABLA set CAMPO 1 = VALOR 1 where CAMPOID = VALORID
 		$sqlUpdateCampos = "";
@@ -421,7 +420,7 @@ class generic_abm {
 			if ($sqlUpdateCampos != "") {
 				$sqlUpdateCampos .= ", ";
 			}
-			$sqlUpdateCampos .= "".$value['campoFisico']." = '".$value['valor']."'";
+			$sqlUpdateCampos .= "".$value['campofisico']." = '".$value['valor']."'";
 		}
 		
 		
@@ -430,11 +429,14 @@ class generic_abm {
 			if ($sqlWherePk != "") {
 				$sqlWherePk .= " AND ";
 			}
-			$sqlWherePk .= "".$value['campoFisico']." = '".$value['valor']."'";
+			$sqlWherePk .= "".$value['campofisico']." = '".$value['valor']."'";
 		}
-		$sqlSelectPk = "SELECT 1 FROM `".$tableBase."` WHERE ".$sqlWherePk;
-		$arrCamposPk = $this -> db -> QueryFetchArray($sqlSelectPk);
+// 		$sqlSelectPk = "SELECT 1 FROM `".$tableBase."` WHERE ".$sqlWherePk;
+// 		$arrCamposPk = $this -> db -> QueryFetchArray($sqlSelectPk);
 		
+		$sqlUpdate .= $sqlUpdateCampos." WHERE ".$sqlWherePk;
+		$this -> db -> QuerySimple($sqlUpdate);
+		/*
 		if (count($arrCamposPk) > 1 ) {
 			$error = 1;
 			$msg = "No se pueden duplicar registros";
@@ -442,7 +444,7 @@ class generic_abm {
 			$sqlUpdate .= $sqlUpdateCampos." WHERE ".$sqlWherePk;
 			$this -> db -> QuerySimple($sqlUpdate);
 		}
-		
+		*/
 // 		echo "<pre>"; print_r($arrUpdate); echo "</pre>";
 // 		echo $sqlUpdate;
 		return (object)array( 'error' => $error, 'msg' => $msg, 'html' => $salida.$sqlUpdate);
@@ -465,13 +467,13 @@ class generic_abm {
 			$valoresPreviosParametro = true; 
 		}
 		
-		$sqlCampos = "SELECT Fields.`idCampo`,`nombreEnForm`,`display`,`tipoCampo`,`sql`,`mask`
-		FROM Fields
-		INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-		WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = '".$scope."'
-		ORDER BY moduleFields.Orden ASC";
+		$sqlCampos = "SELECT fields.`idcampo`,`nombreenform`,`display`,`tipocampo`,`sql`,`mask`
+		FROM fields
+		INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+		WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = '".$scope."'
+		ORDER BY modulefields.orden ASC";
 		$arrCampos = $this -> db -> QueryFetchArray($sqlCampos);
 		/*
 		//Coloco los datepicker
@@ -497,9 +499,9 @@ class generic_abm {
 					<ul>';
 		foreach ($arrCampos as $result) {
 			if ($valoresPreviosParametro == false) {
-				$valoresPrevios[$result['idCampo']]['valor'] = '';
+				$valoresPrevios[$result['idcampo']]['valor'] = '';
 			}
-			$propiedadesInput = array('type' => $result['tipoCampo'], 'value' => $valoresPrevios[$result['idCampo']]['valor'],'style' => "width:300px;", 'name' => $result['nombreEnForm'], 'id' => $result['nombreEnForm'], 'sql' => $result['sql'], 'placeholder' => $result['mask']);
+			$propiedadesInput = array('type' => $result['tipocampo'], 'value' => $valoresPrevios[$result['idcampo']]['valor'],'style' => "width:300px;", 'name' => $result['nombreenform'], 'id' => $result['nombreenform'], 'sql' => $result['sql'], 'placeholder' => $result['mask']);
 			$salida .= '
 						<li>
 							<label>'.utf8_encode($result['display']).'</label>

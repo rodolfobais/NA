@@ -28,12 +28,12 @@ class funciones{
 		return $salida;
 	}
 	function getModuleQueryFrom($menu){
-		$sql = "SELECT `From` , TableBase FROM module where IdModulo = '".$menu."'";
-	//  	 echo $sql;
+		$sql = "SELECT `from` , tablebase FROM module where idmodulo = '".$menu."'";
+// 	  	 echo $sql;
 		$result = $this -> db -> QueryFetchArray($sql);
 	// 	echo "<pre>"; print_r($result);echo "</pre>";
-		$from = $result[0]['From'];
-		$tableBase = $result[0]['TableBase'];
+		$from = $result[0]['from'];
+		$tableBase = $result[0]['tablebase'];
 		if ($from == "") {
 			$from = "FROM `".$tableBase."`";
 		}

@@ -29,21 +29,21 @@ $from = $fn -> getModuleQueryFrom($menu);
 // echo "adsasdads".$menu;
 
 //Consulto las propiedades del modulo
-$sqlProp = "SELECT `dblClickFn` FROM `module` WHERE IdModulo = '".$menu."'";
+$sqlProp = "SELECT `dblclickfn` FROM `module` WHERE Idmodulo = '".$menu."'";
 $arrProp = $db -> QueryFetchArray($sqlProp);
-$dblClickFn = $arrProp[0]['dblClickFn'];
+$dblClickFn = $arrProp[0]['dblclickfn'];
 if ($dblClickFn == 'true') {
 	$dblClickFn = ",dblclickFunction: dobleClick";
 }
 
 //Consulto los campos del modulo
-$sqlFilas = "SELECT `display`, Fields.`idCampo`, `width`, `sortable`, `hide`,`align`
-FROM Fields
-INNER JOIN moduleFields
-ON Fields.idCampo = moduleFields.idCampo
-WHERE IdModulo = '".$menu."'
-AND moduleFields.Scope = 'GR'
-ORDER BY moduleFields.Orden ASC";
+$sqlFilas = "SELECT `display`, fields.`idcampo`, `width`, `sortable`, `hide`,`align`
+FROM fields
+INNER JOIN modulefields
+ON fields.idcampo = modulefields.idcampo
+WHERE idmodulo = '".$menu."'
+AND modulefields.scope = 'GR'
+ORDER BY modulefields.orden ASC";
 $arrFilas = $db -> QueryFetchArray($sqlFilas);
 // echo $sqlColumnas;
 // echo "<pre>"; print_r($arrColumnas);echo "</pre>";
@@ -63,10 +63,10 @@ foreach ($arrFilas as $result) {
 				$isdefault = "";
 	}
 // 	$filas .= $result['campoFisico'];
-	$filas .= "{display: '".$result['display']."', name : '".$result['idCampo']."', width : ".$result['width'].", sortable : ".$result['sortable'].", hide: false ,  align: '".$result['align']."'}";
+	$filas .= "{display: '".$result['display']."', name : '".$result['idcampo']."', width : ".$result['width'].", sortable : ".$result['sortable'].", hide: false ,  align: '".$result['align']."'}";
 	//{display: 'Name', name : 'name', isdefault: true}
 	if ($result['hide'] != 'true') {
-		$searchitems .= "{display: '".$result['display']."', name : '".$result['idCampo']."'".$isdefault."}";
+		$searchitems .= "{display: '".$result['display']."', name : '".$result['idcampo']."'".$isdefault."}";
 	}
 }
 //  echo $filas;

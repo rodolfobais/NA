@@ -66,41 +66,41 @@ $sql = "SELECT company_email_subject FROM `config`";
 $datos = $db -> QueryArray($sql);
 $company_email_subject = $datos['company_email_subject'];
 */
-$sqlPK = "SELECT campoFisico
-FROM Fields
-INNER JOIN moduleFields
-ON Fields.idCampo = moduleFields.idCampo
-WHERE IdModulo = '".$menu."'
-AND moduleFields.Scope = 'PK'
-ORDER BY moduleFields.Orden ASC";
+$sqlPK = "SELECT campofisico
+FROM fields
+INNER JOIN modulefields
+ON fields.idcampo = modulefields.idcampo
+WHERE idmodulo = '".$menu."'
+AND modulefields.scope = 'PK'
+ORDER BY modulefields.orden ASC";
 $arrPK = $db -> QueryFetchArray($sqlPK);
-
+// echo $sqlPK."<br/>";
 $PKs = "";
 foreach ($arrPK as $result) {
 	if ($PKs != "") {
 		$PKs .= ", '|~' , ";
 	}
-	$PKs .= " ".$result['campoFisico']."";
+	$PKs .= " ".$result['campofisico']."";
 }
 
 
 // consulta general
 $sqlColumnas = "
 	SELECT 
-		CASE `TipoCampo` 
-			WHEN 'select' THEN `sqlMostarDescrp` 
-			ELSE `campoFisico` 
-		END AS campoFisico,
-		`TipoCampo` as TipoCampo
-	FROM Fields
-	INNER JOIN moduleFields
-		ON Fields.idCampo = moduleFields.idCampo
-	WHERE IdModulo = '".$menu."'
-		AND moduleFields.Scope = 'GR'
-	ORDER BY moduleFields.Orden ASC";
+		CASE `tipocampo` 
+			WHEN 'select' THEN `sqlmostardescrp` 
+			ELSE `campofisico` 
+		END AS campofisico,
+		`tipocampo` as tipocampo
+	FROM fields
+	INNER JOIN modulefields
+		ON fields.idcampo = modulefields.idcampo
+	WHERE idmodulo = '".$menu."'
+		AND modulefields.scope = 'GR'
+	ORDER BY modulefields.orden ASC";
 $arrColumnas = $db -> QueryFetchArray($sqlColumnas);
 
-if (!$sortname) $sortname = $arrColumnas[0]['campoFisico'];
+if (!$sortname) $sortname = $arrColumnas[0]['campofisico'];
 if (!$sortorder) $sortorder = 'desc';
 
 $sort = "ORDER BY $sortname $sortorder";
@@ -112,10 +112,10 @@ foreach ($arrColumnas as $result) {
 	if ($columnas != "") {
 		$columnas .= ", ";
 	}
-	if ($result['TipoCampo'] == 'date'){
-		$columnas .= "DATE_FORMAT(".$result['campoFisico'].",'%d/%m/%Y')";
+	if ($result['tipocampo'] == 'date'){
+		$columnas .= "DATE_FORMAT(".$result['campofisico'].",'%d/%m/%Y')";
 	}else{
-		$columnas .= "".$result['campoFisico']."";
+		$columnas .= "".$result['campofisico']."";
 	}
 }
 $sql = "SELECT CONCAT(".$PKs."), ".$columnas." ".$from." ".$where." ".$sort." ".$limit;
