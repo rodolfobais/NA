@@ -2,7 +2,7 @@
 /**
  * Clase generic_abm
  *
- * @author Rodolfo Bais <rodolfo@electroturno.com>
+ * @author Rodolfo Bais <rodolfo.bais@drb-webdesign.com.ar>
  */
 
 class generic_abm {
